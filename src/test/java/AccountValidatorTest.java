@@ -2,9 +2,25 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class AccountValidatorTest {
+    private String validPassword;
+    private String validEmail;
+
+    @BeforeEach
+    void setUp() {
+        validPassword = "Aa123456!";
+        validEmail = "seyma.yilmaz@example.com";
+    }
+
+    @AfterEach
+    void tearDown() {
+        validPassword = null;
+        validEmail = null;
+    }
 
     @Test
     void validNameAtLowerBoundary() {
@@ -63,7 +79,7 @@ public class AccountValidatorTest {
 
     @Test
     void validPasswordAllRulesSatisfied() {
-        assertTrue(AccountValidator.isValidPassword("Aa123456!"));
+        assertTrue(AccountValidator.isValidPassword(validPassword));
     }
 
     @Test
@@ -93,12 +109,12 @@ public class AccountValidatorTest {
 
     @Test
     void passwordsMatch() {
-        assertTrue(AccountValidator.doPasswordsMatch("Aa123456!", "Aa123456!"));
+        assertTrue(AccountValidator.doPasswordsMatch(validPassword, validPassword));
     }
 
     @Test
     void passwordsDoNotMatch() {
-        assertFalse(AccountValidator.doPasswordsMatch("Aa123456!", "Aa123456@"));
+        assertFalse(AccountValidator.doPasswordsMatch(validPassword, "Aa123456@"));
     }
 
     @Test
@@ -107,10 +123,10 @@ public class AccountValidatorTest {
                 AccountValidator.isValidAccount(
                         "Seyma",
                         "Yilmaz",
-                        "seyma.yilmaz@example.com",
+                        validEmail,
                         LocalDate.now().minusYears(22),
-                        "Aa123456!",
-                        "Aa123456!"));
+                        validPassword,
+                        validPassword));
     }
 
     @Test
@@ -119,9 +135,9 @@ public class AccountValidatorTest {
                 AccountValidator.isValidAccount(
                         "S",
                         "Yilmaz",
-                        "seyma.yilmaz@example.com",
+                        validEmail,
                         LocalDate.now().minusYears(22),
-                        "Aa123456!",
-                        "Aa123456!"));
+                        validPassword,
+                        validPassword));
     }
 }
