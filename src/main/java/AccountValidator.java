@@ -31,7 +31,7 @@ public class AccountValidator {
             return false;
         }
         int age = Period.between(birthDate, LocalDate.now()).getYears();
-        return age >= 19 && age <= 110;
+        return age >= 18 && age <= 120;
     }
 
     public static boolean isValidPassword(String password) {
